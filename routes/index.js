@@ -2,14 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Twitter = require('twitter');
 
-var Twitter = require('twitter');
- 
-var client = new Twitter({
-  consumer_key: 'process.env.CONSUMER_KEY',
-  consumer_secret: 'process.env.CONSUMER_SECRET',
-  access_token_key: 'process.enc.ACCESS_KEY',
-  access_token_secret: 'process.env.ACCESS_SECRET'
-});
  
 
 
@@ -19,7 +11,19 @@ router.get('/', function(req, res, next) {
 });
 
 
+function twitterClient() {
+  return new Twitter({
+    consumer_key: 'CONSUMER_KEY',
+    consumer_secret: 'CONSUMER_SECRET',
+    access_token_key: params.access_token_key,
+    access_token_secret: params.access_token_secret
+  });
+
+}
+
 router.post('/tweet', function(req, res, nest) {
+  var client = twitterClient.req.body;
+
   client.post('statuses/update', {status: req.body.tweet }, function(err, tweets, respons) {
     if (!err) {
       res.json(tweets);
@@ -44,7 +48,7 @@ router.post('/search', function(req, res, next) {
           }
         });
       });
-      console.log(stats);
+      console.log(tweets);
       res.json(stats);
     }
   });
